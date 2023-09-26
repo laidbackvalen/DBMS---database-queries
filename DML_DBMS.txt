@@ -1,0 +1,440 @@
+
+
+ To Create DATABASE use "CREATE DATABASE BANK;"  ---- it will create database with the name of bank and than to use it  "use bank;" 
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+create table employees(emp_id int(10) not null,first_name varchar(20),last_name varchar(20),salary int,primary key (emp_id));
+
+
+-----------------------------------------------------------------------------------------
+
+
+create table employee(
+emp_id int,
+first_name varchar(20),
+last_name varchar(20),
+salary int,
+dept_id int,
+primary key(emp_id)
+);
+
+
+--------------------------------------------------------------------------------------
+
+
+
+alter table world.valen3 drop column MyUnknownColumn;               */ to delete column 
+
+
+alter table employees add column dept varchar(20);                   */ to add column
+
+
+alter table world.valen rename column ï»¿Player_id to player_id;     */to change column name
+
+
+alter table bank_details add column geo_location varchar(20);
+
+
+insert into employees(emp_id,first_name,last_name,salary) values(5,'raju','patel',50000 );
+
+update employees set last_name='patel' where emp_id=6;
+
+update department set dept_loc ='new jersey' where dept ='support';
+
+update employee set salary = 64000 where emp_id =104;
+
+delete from employees where emp_id in (1,6);
+
+
+----------------------------------------------------------------------------------------------
+
+
+WHERE CLAUSE
+
+
+
+select * from employees where emp_id=2;
+
+select * from employees where first_name= 'amita' and salary=30000;
+
+select * from employees where first_name= 'kavi' or salary=30000;
+
+select * from employees where first_name != 'baba re baba';
+
+select * from employees where salary >= 40000;
+
+select * from employees where first_name != 'kavi';
+
+select * from employees where salary  between  30000 and 50000;
+
+select * from employees where first_name like 'tainsa';
+
+select * from employees where salary in (40000, 20000, 30000);
+
+select distinct (first_name) from employees;
+
+
+---------------------------------------------------------------------------------
+
+
+OPERATORS AGGREGATION
+
+
+select avg (salary) from employees;
+
+select max(salary) from employees;
+
+select sum(salary) from employees;
+
+select count(*) from employees;
+
+
+---------------------------------------------------------------------------------
+
+
+
+alter table employees add column dept varchar(20); 
+
+
+alter table world.valen3 drop column MyUnknownColumn;               */ to delete column 
+
+
+insert into employees(emp_id, first_name,last_name,salary,dept) values(1,'valen','patel', 10000,'sales');
+
+
+
+------------------------------------------------------------------------------------
+
+
+GROUPED CLAUSE
+
+
+select first_name, max(salary), dept from employees group by dept;          *\ if we want to check the max salary with first names of the employees with a specific department
+
+
+
+-------------------------------------------------------------------------------------
+
+
+HAVING CLAUSE
+
+
+select first_name, max(salary), dept from employees group by dept having count(dept)>=1;
+
+select first_name, avg(salary), dept from employees group by dept having count(dept)>=2;
+
+
+
+-------------------------------------------------------------------------------------------------------------
+
+
+BY ORDER
+
+
+select * from employees order by salary desc;          */ to view table in descending order/*
+
+select * from employees order by salary asc;            */ to view table in ascending order/*
+
+
+
+--------------------------------------------------------------------------------------------------------------
+
+
+
+UNION  - THE UNION IS USED SO THAT THE REPETATION OF THE ELEMENTS HAVING COMMON NAMES CANNOT PRODUCE REPEAT VALUE IN THE RESULTS. IT IS USED TO NOT HAVE REPEATING VALUES
+
+
+select product_name from product1
+union
+select product_name from product2;
+
+
+
+--------------------------------------------------------------------------------------------------------------
+
+
+
+UNION ALL  - IT TAKES THE DUPLICATE VALUE AND SHOW IT IN RESULT
+
+
+select product_name from product1
+union all
+select product_name from product2;
+
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+Error code 1175 update   ---> go to "Edit" option there will be a pop out "Preferences" than go to "Sql Editor" than Uncheck the box "Safe Updates(reject UPDATES...)" 
+Than Go to "Query" than "reconnect to server".
+
+
+---------------------------------------------------------------------------------
+
+
+INNER JOIN
+
+
+select e.first_name, e.salary, d.dept,d.dept_loc
+from employees e
+inner join department d
+on e.dept=d.dept;
+
+
+LEFT JOIN
+
+
+select e.first_name, e.salary, e.dept, d.dept, d.dept_loc
+from employees e
+left join department d
+on e.dept=d.dept;
+
+
+RIGHT JOIN
+
+
+select e.first_name, e.salary, e.dept, d.dept, d.dept_loc
+from employees e
+right join department d
+on e.dept=d.dept;
+
+
+FULL OUTER JOIN
+
+
+select e.first_name, e.salary, e.dept, d.dept, d.dept_loc
+from employees e
+left join department d
+on e.dept=d.dept
+UNION
+select e.first_name, e.salary, e.dept, d.dept, d.dept_loc
+from employees e
+right join department d
+on e.dept=d.dept;
+
+
+CROSS JOIN
+
+
+select * from employees
+cross join department;
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+Create schema by Right clicking anywhere in the left side where all the other databases are 
+
+
+you can add CSV file by Right clicking on the database you are working on and here are the steps:-
+
+1. table data import wizard
+2.select file path to import
+than keep clicking on next till Finish. don't do anything.
+
+
+
+------------------------------------------------------------------------------------------------------------------------------
+
+
+QUESTIONS+++++
+
+  
+#Datasets used : cricket_1.csv, cricket_2.csv                                     instead i have valen.csv, valen2.csv
+--cricket_1 is the table for cricket test match 1.                                instead i have created world.valen and world.valen2,
+--Cricket_2 is the table for cricket test match 2.
+
+
+#Q.1 find all players who were present in test match 1 or test match 2; 
+    
+
+answer:
+ 
+
+SELECT * FROM world.valen
+union
+select * from world.valen2;
+
+
+--------------------------------------------------------------------------------
+
+
+
+#Q.2 Write a MySQL query to find the players from the test match won having popularity higher than the average popularity.
+
+
+Answer :
+
+
+
+explanation - select will show the player name and popularity as we know
+from world.valen table
+
+select avg(popularity) from world.valen;  will show the average popularity of the table
+
+
+  
+
+select player_name, popularity from world.valen
+where popularity > (select avg(popularity) from world.valen); 
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+
+
+#Q.3 Find player_id and player name that are common in the test match 1 and test match 2.
+
+
+answer :
+
+select player_id, player_name from world.valen where world.valen.player_id in (select player_id from world.valen2);
+
+
+
+----------------------------------------------------------------------------------------
+
+
+
+#Q.4 Retrive player_id, Runs and Player_name from cricket_1 Table and Display list of the players where the runs are more than the average runs.
+
+
+answer :
+
+
+select player_id, runs, player_name from world.valen                                 */just breaking the code to read easily
+ where runs > 
+(select avg(runs) from world.valen); 
+
+
+
+---------------------------------------------------------------------------------------
+
+
+
+
+#Q.5 Write a Query to extract the player_id, Runs and Player_name from the table "cricket_1" where the runs are greater than 50.
+
+
+
+answer :
+
+1.
+select player_id, runs, player_name from world.valen where  runs>(50) ;
+
+2.
+select player_id, runs, player_name from world.valen where  runs>50 ;
+
+
+
+
+---------------------------------------------------------------------------------------
+
+
+
+
+#Q.6 Write a query to extract all the columns from cricket_1 where player_namen starts with 'y' and ends with 'v'.
+
+
+
+answer : 
+
+
+
+select * from world.valen2 where player_name like 'y%'
+
+
+
+
+------------------------------------------------------------------------------------------
+
+
+
+#Q.7 Write a query to extract all the columns from cricket_1 where players_name does not end with 'T'.
+
+
+
+answer :
+
+
+
+select * from world.valen where player_name not like '%t'
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Question -
+
+
+create table bank_details(
+product char(10),
+quantity int,
+price real,
+purchase_cost decimal(6,2),                                     */ decimal(6,2) means 6 space numeric value where 2 is digits after decimal    for ex - 1045.25
+estimated_sale_price float
+);
+
+
+AS PER QUESTIONS -
+
+1. insert into bank_details values('paycard',3,330,8008,9009);
+insert into bank_details values('paypoints',4,200,8000,6800);
+
+2. alter table bank_details add column geo_location varchar(20);
+
+3. select geo_location from bank_details where product ='paycard';
+
+4. select  char_length(product) from bank_details where product ='paycard';
+
+5. alter table bank_details modify product varchar(10);
+
+
+---------------------------------------------------------------------------------------------
+
+
+create table bank_holidays(
+holiday date,
+start_time time,
+end_time timestamp
+);
+
+
+
+insert into bank_holidays values(
+current_date(),
+current_date(),
+current_date()
+);
+
+
+
+
+update bank_holidays set holiday=date_add(holiday, interval 10 day);
+
+
+
+update bank_holidays set end_time = utc_timestamp();
+
+
+
+select product as new_product from bank_details;                           */ for giving alias for once. so the product field will be seen as new product for a while.
+
+
+
+select * from bank_details limit 1;                                         */ this will show only one line of record
+
+
+
+
+TO DISPLAY THE FIRST FEW CHARACTERS OF A "FIELD" OF TABLE -------->>> select substr(field 1,5) from table;

@@ -1,0 +1,3 @@
+SHORTCUTS:
+
+1. For Execution of Query Press Contol+Shift+Enter;
